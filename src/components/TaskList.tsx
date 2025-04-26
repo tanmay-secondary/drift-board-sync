@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTaskContext, List, Task } from '@/contexts/TaskContext';
 import TaskCard from './TaskCard';
@@ -22,9 +21,9 @@ interface TaskListProps {
 }
 
 const listColors = {
-  'To Do': 'bg-red-100',
-  'In Progress': 'bg-yellow-100',
-  'Done': 'bg-green-100'
+  'To Do': 'bg-pink-50 border-pink-200 text-pink-900',
+  'In Progress': 'bg-yellow-50 border-yellow-200 text-yellow-900',
+  'Done': 'bg-green-50 border-green-200 text-green-900'
 };
 
 const TaskList = ({ list, boardId }: TaskListProps) => {
@@ -86,7 +85,7 @@ const TaskList = ({ list, boardId }: TaskListProps) => {
 
   return (
     <div 
-      className={`list-container ${listColors[list.title] || 'bg-gray-100'}`}
+      className={`list-container ${listColors[list.title] || 'bg-gray-50 border-gray-200 text-gray-900'}`}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
