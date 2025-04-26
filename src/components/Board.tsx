@@ -69,7 +69,7 @@ const Board = () => {
           </div>
         </div>
         
-        <div className="board-container">
+        <div className="board-container justify-center">
           {activeBoard.lists.map(list => (
             <TaskList key={list.id} list={list} boardId={activeBoard.id} />
           ))}

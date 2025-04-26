@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTaskContext, List, Task } from '@/contexts/TaskContext';
 import TaskCard from './TaskCard';
@@ -20,6 +19,12 @@ interface TaskListProps {
   list: List;
   boardId: string;
 }
+
+const listColors = {
+  'To Do': 'bg-red-100',
+  'In Progress': 'bg-yellow-100',
+  'Done': 'bg-green-100'
+};
 
 const TaskList = ({ list, boardId }: TaskListProps) => {
   const { createTask } = useTaskContext();
@@ -57,7 +62,6 @@ const TaskList = ({ list, boardId }: TaskListProps) => {
     }
   };
 
-  // Task drag and drop handlers
   const handleDragStart = (e: React.DragEvent, taskId: string) => {
     e.dataTransfer.setData('taskId', taskId);
     e.dataTransfer.setData('sourceListId', list.id);
@@ -75,7 +79,6 @@ const TaskList = ({ list, boardId }: TaskListProps) => {
     const sourceBoardId = e.dataTransfer.getData('sourceBoardId');
     
     if (sourceListId !== list.id) {
-      // Move task between lists
       const { moveTask } = useTaskContext();
       moveTask(sourceBoardId, sourceListId, taskId, boardId, list.id);
     }
@@ -83,17 +86,18 @@ const TaskList = ({ list, boardId }: TaskListProps) => {
 
   return (
     <div 
-      className="list-container"
+      className={`list-container ${listColors[list.title] || 'bg-gray-100'}`}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      <h3 className="font-semibold mb-3">{list.title}</h3>
-      <div className="flex-grow overflow-y-auto space-y-2">
+      <h3 className="font-semibold mb-3 text-center">{list.title}</h3>
+      <div className="flex-grow overflow-y-auto space-y-2 px-2">
         {list.tasks.map(task => (
           <div 
             key={task.id} 
             draggable 
             onDragStart={(e) => handleDragStart(e, task.id)}
+            className="transform transition-transform duration-200 hover:scale-105"
           >
             <TaskCard task={task} boardId={boardId} listId={list.id} />
           </div>
@@ -102,7 +106,7 @@ const TaskList = ({ list, boardId }: TaskListProps) => {
       <div className="pt-3 mt-auto">
         <Button 
           variant="ghost" 
-          className="w-full justify-start" 
+          className="w-full justify-center" 
           onClick={() => setIsDialogOpen(true)}
         >
           <Plus className="mr-2 h-4 w-4" />
