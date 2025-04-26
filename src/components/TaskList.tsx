@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTaskContext, List, Task } from '@/contexts/TaskContext';
 import TaskCard from './TaskCard';
@@ -27,7 +28,7 @@ const listColors = {
 };
 
 const TaskList = ({ list, boardId }: TaskListProps) => {
-  const { createTask } = useTaskContext();
+  const { createTask, moveTask } = useTaskContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newTask, setNewTask] = useState<Omit<Task, 'id' | 'createdAt'>>({
     title: '',
@@ -79,7 +80,6 @@ const TaskList = ({ list, boardId }: TaskListProps) => {
     const sourceBoardId = e.dataTransfer.getData('sourceBoardId');
     
     if (sourceListId !== list.id) {
-      const { moveTask } = useTaskContext();
       moveTask(sourceBoardId, sourceListId, taskId, boardId, list.id);
     }
   };
